@@ -11,7 +11,6 @@ app = Flask(__name__)
 app.config["MONGO_URI"] = "mongodb://admin:password123@ds147942.mlab.com:47942/ks-hack"
 mongo = PyMongo(app)
 users_db = mongo.db.users
-posts_db = mongo.db.posts
 
 app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
 
@@ -27,9 +26,13 @@ def register():
 def login():
     return render_template('login.html')
 
-@app.route('/dashboard')
-def dashboard():
-    return render_template('dashboard.html')
+@app.route('/user_dashboard')
+def userDashboard():
+    return render_template('user_dashboard.html')
+
+@app.route('/class_dashboard')
+def classDashboard():
+    return render_template('class_dashboard.html')
 
 @app.route('/api/register', methods=['POST'])
 def authRegister():
@@ -64,7 +67,7 @@ def authLogin():
             # print("incorrect password")
     # else:
         # print("user not found")
-    return redirect('/dashboard')
+    return redirect('/user_dashboard')
 
 @app.route('/logout')
 def logout():
@@ -79,19 +82,6 @@ def getPosts():
     search = users_db.find_one({"_id": userId})
     posts = search["posts"]
     return json.dump(posts)
-
-
-@app.route('/api/addClass', methods=['POST'])
-def addClass():
-    data = json.loads(request.data)
-    course_id = data["course_id"]
-    user_id = data["user_id"]
-    class_ids = users_db.find_one({"_id": ObjectId(user_id)})["class_ids"]
-    class_ids.append(course_id)
-    result = users_db.find_one_and_update({"_id": ObjectId(user_id)}, {"$set": {"class_ids": class_ids}})
-    return "done"
-
-
 
 
 if __name__ == '__main__':
