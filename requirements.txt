@@ -1,4 +1,4 @@
+bson
 bcrypt
 flask_pymongo
 flask
-bson
