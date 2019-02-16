@@ -11,6 +11,9 @@ app = Flask(__name__, static_folder='../static/dist', template_folder='../static
 app.config["MONGO_URI"] = "mongodb://admin:password123@ds147942.mlab.com:47942/ks-hack"
 mongo = PyMongo(app)
 
-
+@app.route('/')
+def index():
+    return render_template('index.html')
+    
 if __name__ == '__main__':
     app.run()
