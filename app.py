@@ -7,13 +7,13 @@ from bson.objectid import ObjectId
 from datetime import datetime
 from bson.json_util import dumps, loads
 
-app = Flask(__name__, static_folder='../static/dist', template_folder='../static')
+app = Flask(__name__)
 app.config["MONGO_URI"] = "mongodb://admin:password123@ds147942.mlab.com:47942/ks-hack"
 mongo = PyMongo(app)
 
 @app.route('/')
 def index():
-    return render_template('../templates/index.html')
+    return render_template('index.html')
 
 if __name__ == '__main__':
     app.run()
