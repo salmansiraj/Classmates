@@ -4,10 +4,10 @@
   </head>
 
   <body>
-    <form action="/action_page.php" method="post">
-      Name: <input type="text" name="name" value="name"><br>
-      Email: <input type="text" name="email" value="email"><br>
-      Password: <input type="text" name="password" value="password"><br>
+    <form action="/api/register" method="post">
+      Name: <input type="text" name="name" value="name" required/><br>
+      Email: <input type="email" name="email" value="email" required/><br>
+      Password: <input type="password" name="password" value="password" required/><br>
       <input type="submit" value="Submit">
     </form>
   </body>
