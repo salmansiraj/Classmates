@@ -16,8 +16,12 @@ users_db = mongo.db.users
 def index():
     return render_template('index.html')
 
+@app.route('/login')
+def login():
+    return render_template('login.html')
+
 @app.route('/api/register', methods=['POST'])
-def register():
+def registerAuth():
     data = request.form
     encryptedPassword = bytes(data['password'], encoding="utf-8")
     search = users_db.find_one({"email" : data["email"]})
@@ -31,7 +35,7 @@ def register():
         return "User has been successfully created"
 
 @app.route('/api/login', methods=['POST'])
-def login():
+def loginAuth():
     data = request.form
     encryptedPassword = bytes(data['password'], encoding="utf-8")
     search = users_db.find_one({"email" : data["email"]})
