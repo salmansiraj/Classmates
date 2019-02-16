@@ -11,6 +11,7 @@ app = Flask(__name__)
 app.config["MONGO_URI"] = "mongodb://admin:password123@ds147942.mlab.com:47942/ks-hack"
 mongo = PyMongo(app)
 users_db = mongo.db.users
+posts_db = mongo.db.posts
 
 @app.route('/')
 def index():
@@ -65,6 +66,19 @@ def getPosts():
     # data = json.loads(request.data)
     print(request.form)
     return "test"
+
+
+@app.route('/api/addClass', methods=['POST'])
+def addClass():
+    data = json.loads(request.data)
+    course_id = data["course_id"]
+    user_id = data["user_id"]
+    class_ids = users_db.find_one({"_id": ObjectId(user_id)})["class_ids"]
+    class_ids.append(course_id)
+    result = users_db.find_one_and_update({"_id": ObjectId(user_id)}, {"$set": {"class_ids": class_ids}})
+    return "done"
+
+
 
 
 if __name__ == '__main__':
