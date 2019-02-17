@@ -1,125 +1,80 @@
 <!DOCTYPE html>
-<html>
-  <head>
-  <style>
-        body {font-family: Arial, Helvetica, sans-serif;}
-        * {box-sizing: border-box;}
+<html lang="en">
 
-        input[type=text], select, textarea {
-        width: 100%;
-        padding: 12px;
-        border: 1px solid #ccc;
-        border-radius: 4px;
-        box-sizing: border-box;
-        margin-top: 6px;
-        margin-bottom: 16px;
-        resize: vertical;
-        }
+<head>
+<style>
+.textboxid {
+        width: 500px;
+    }
+</style>
 
-        input[type=submit] {
-        background-color: #4CAF50;
-        color: white;
-        padding: 12px 20px;
-        border: none;
-        border-radius: 4px;
-        cursor: pointer;
-        }
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
 
-        input[type=submit]:hover {
-        background-color: #45a049;
-        }
+  <title> KS Hackathon </title>
 
-        .container {
-        border-radius: 5px;
-        padding: 20px;
-        }
+  <!-- Bootstrap core CSS -->
+  <link href="static/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
-    </style>
+  <!-- Custom fonts for this template -->
+  <link href="static/vendor/fontawesome-free/css/all.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Varela+Round" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
 
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
+  <!-- Custom styles for this template -->
+  <link href="static/css/grayscale.min.css" rel="stylesheet">
 
-    <title> KS Hackathon </title>
+</head>
 
-    <!-- Bootstrap core CSS -->
-    <link href="static/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<body id="page-top" style="background-img : url('static/img/bg-masthead.jpg');">
 
-    <!-- Custom fonts for this template -->
-    <link href="static/vendor/fontawesome-free/css/all.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Varela+Round" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
-
-    <!-- Custom styles for this template -->
-    <link href="static/css/grayscale.min.css" rel="stylesheet">
-  </head>
-
-  <body id="page-top" style="background-img : url('static/img/bg-masthead.jpg');">
-
-    <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
-      <div class="container">
-        <a class="navbar-brand js-scroll-trigger" href="/"> <h4> Coursemates </h4> </a>
-        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-          Menu
-          <i class="fas fa-bars"></i>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarResponsive">
-          <ul class="navbar-nav ml-auto">
-            <li class="nav-item" href="login.html">
-              <a class="nav-link js-scroll-trigger" href="/login"> Login </a>
-            </li>
-          </ul>
-        </div>
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+    <div class="container">
+      <a class="navbar-brand js-scroll-trigger" href="#page-top"> <h4> Coursemates </h4> </a>
+      <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+        Menu
+        <i class="fas fa-bars"></i>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarResponsive">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item" href="login.html">
+            <a class="nav-link js-scroll-trigger" href="/login"> Login</a>
+          </li>
+        </ul>
       </div>
-    </nav>
+    </div>
+  </nav>
 
-    <header class="masthead">
-      <div class="container d-flex h-100 align-items-center" styles>
-        <div class="mx-auto text-center">
-            <div class="container" styles="padding:10px">
-                <form id="form" class = "postform" >
-                    <label for="pname">Post Name</label>
-                    <input type="text" id="pname" name="postname" placeholder="eg. Hash Table Review">
-                    <!--
-                        <div id="myPost" >
-                                <label for="profile_pic">Choose file to upload</label>
-                                <input type="file" id="profile_pic" name="profile_pic"
-                                    accept=".jpg, .jpeg, .png">
+  <!-- Header -->
+  <header class="masthead">
+  </header>
 
-                                <button>Submit</button>
-                        </div>
-                    -->
-                    <label for="caption"> Caption </label>
-                    <textarea id="caption" name="caption" placeholder="Write a caption..." style="height:200px"></textarea>
-                    <input type="submit" id="bt" value="Sumbit" onclick="sumbit()">
-                </form>
-            </div>
-        </div>
-      </div>
-    </header>
+  <script>
+    function sumbit() {
+        var postName = document.getElementById('postName').value;
+        var caption= document.getElementById('caption').value;
+        var values = {};
 
-    <script>
-        function sumbit() {
-            var myTab = document.getElementById('form');
-            var values = new Array();
+        // LOOP THROUGH EACH ROW OF THE TABLE.
+        values["postName"] = postName;
+        values["caption"] = caption;
+        console.log(values);
+    }
+</script>
 
-            // LOOP THROUGH EACH ROW OF THE TABLE.
-            console.log(myTab.getAttribute('type'))
-            for (row = 1; row < myTab.rows.length - 1; row++) {
-                    if (element.getAttribute('type') == 'text') {
-                        values.push("'" + element.value + "'");
-                    }
-            }
-            console.log(values);
-            window.fetch("/api/addPost", {
-            method: 'POST',
-            body: JSON.stringify(values),
-            }).then(resolve, reject);
-        }
+  <!-- Bootstrap core JavaScript -->
+  <script src="static/vendor/jquery/jquery.min.js"></script>
+  <script src="static/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
-    </script>
+  <!-- Plugin JavaScript -->
+  <script src="static/vendor/jquery-easing/jquery.easing.min.js"></script>
 
-  </body>
+  <!-- Custom scripts for this template -->
+  <script src="static/js/grayscale.min.js"></script>
+
+</body>
 
 </html>
