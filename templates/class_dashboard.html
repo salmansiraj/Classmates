@@ -21,6 +21,76 @@
   <!-- Custom styles for this template -->
   <link href="static/css/grayscale.min.css" rel="stylesheet">
 
+  <style>
+    .flex-container {
+      display: flex;
+      justify-content: center;
+      flex-flow: row wrap;
+      align-items: center;
+      align-content: stretch;
+      background-color: white;
+      height: 80%;
+      width: 100%;
+    }
+
+    .card {
+      border-style: solid;
+      border-width: 2px;
+      border-color: black;
+      width:33%;
+      height:50%;
+      text-align:center;
+    }
+
+    .card-image {
+      height:75%;
+      border-bottom-style: dotted;
+      border-bottom-width: 2px;
+    }
+
+    .card-bottom {
+      height:25%;
+    }
+
+    .card-text {
+      float: left;
+      height:100%;
+      width:75%;
+      border-right-style: dashed;
+      border-right-width: 2px;
+    }
+
+    .card-button {
+      float: left;
+      height:100%;
+      width:25%;
+    }
+
+    .button-points {
+      float: left;
+      margin-top: 10%;
+      height:40%;
+      width:100%;
+      text-align: center;
+    }
+
+    .button-like {
+      float: left;
+      height:50%;
+      width:50%;
+      /* background-img : url('static/img/downvote.png'); */
+      background-color: #40bf80;
+    }
+
+    .button-dislike {
+      float: left;
+      height:50%;
+      width:50%;
+      background-color: #ff4d4d;
+    }
+
+  </style>
+
 </head>
 
 <body id="page-top" style="background-img : url('static/img/bg-masthead.jpg');">
@@ -46,9 +116,114 @@
   <!-- Header -->
   <header class="masthead">
     <div class="container d-flex h-100 align-items-center">
-      <div class="container" style="background-color: white; height: 80%; width: 100%;">
-        <div class="card" style="margin: 40px; height: 40%; width: 20%; background-color: black;"
+
+      <h3 style="color:white;"> Intro to Databases </h3>
+      <div class="flex-container">
+        <div class="card">
+          <div class="card-image">
+
+          </div>
+          <div class="card-bottom">
+            <div class="card-text">
+
+              </div>
+            <div class="card-button">
+              <div class="button-points">
+                <p id="count"> 0 </p>
+              </div>
+              <input type="button" class="button-dislike" id= "downvote" />
+
+
+              <input type="button" class="button-like" id= "upvote" />
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class ="card-image">
+
+          </div>
+          <div class="card-bottom">
+            <div class="card-text">
+
+              </div>
+            <div class="card-button">
+              <div class="button-points">
+                <p id="count"> 0 </p>
+              </div>
+              <input type="button" class="button-dislike"/>
+
+
+              <input type="button" class="button-like"/>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class ="card-image">
+
+          </div>
+          <div class="card-bottom">
+            <div class="card-text">
+
+              </div>
+            <div class="card-button">
+              <input type="button" class="button-dislike"/>
+
+
+              <input type="button" class="button-like"/>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class ="card-image">
+
+          </div>
+          <div class="card-bottom">
+            <div class="card-text">
+
+              </div>
+            <div class="card-button">
+              <input type="button" class="button-dislike"/>
+
+
+              <input type="button" class="button-like"/>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class ="card-image">
+
+          </div>
+          <div class="card-bottom">
+            <div class="card-text">
+
+              </div>
+            <div class="card-button">
+              <input type="button" class="button-dislike"/>
+
+
+              <input type="button" class="button-like"/>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class ="card-image">
+
+          </div>
+          <div class="card-bottom">
+            <div class="card-text">
+
+              </div>
+            <div class="card-button">
+              <input type="button" class="button-dislike"/>
+
+
+              <input type="button" class="button-like"/>
+            </div>
+          </div>
+        </div>
       </div>
+
+
     </div>
   </header>
 
@@ -61,6 +236,26 @@
 
   <!-- Custom scripts for this template -->
   <script src="static/js/grayscale.min.js"></script>
+
+  <script>
+      var counter = 0;
+      $("#upvote").click(function upvote(){
+        counter++;
+        $("#count").text(counter);
+      });
+
+      $("#downvote").click(function(){
+        counter--;
+        $("#count").text(counter);
+      });
+
+      function upvote() {
+          window.fetch("/api/addPoints", {
+            method: 'POST'
+          }).then(resolve, reject);
+        }
+
+  </script>
 
 </body>
 

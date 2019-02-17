@@ -1,5 +1,5 @@
 import random
-from flask import Flask, render_template, request, make_response, redirect, url_for, flash, jsonify
+from flask import Flask, render_template, request, make_response, redirect, url_for, flash
 from flask_pymongo import PyMongo
 import bcrypt
 import json
@@ -12,8 +12,8 @@ app = Flask(__name__)
 app.config["MONGO_URI"] = "mongodb://admin:password123@ds147942.mlab.com:47942/ks-hack"
 mongo = PyMongo(app)
 users_db = mongo.db.users
+posts_db = mongo.db.posts
 classes_db = mongo.db.classes
-posts_db = mongo.db.post
 
 app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
 
@@ -97,17 +97,13 @@ def getPosts():
     userId = ObjectId(data['uuid'])
     search = users_db.find_one({"_id": userId})
     posts = search["posts"]
-    return json.dumps(posts)
+    return json.dump(posts)
 
-# endpoint to add classes
-@app.route('/api/addClass', methods=['POST'])
-def addClass():
+@app.route('/api/addPoints', methods=['POST'])
+def addPoints():
     data = json.loads(request.data)
-    for courseName in data:
-        courseObject = {"course_name": courseName, "professor": "nobody", "student_ids": [], "post_ids": []}
-        result = classes_db.insert_one(courseObject)
-    # course = {"course_name": data['course_name'], "professor": "nobody", "student_ids": [], "post_ids": []}
-    # result = classes_db.insert_one(course)
+    postId = ObjectId(data["uuid"])
+    posts_db.find_one_and_update({"_id": postId}, {"points": data["points"]+1})
     return redirect('/')
 
 # endpoint to add classes
