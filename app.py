@@ -8,6 +8,8 @@ from datetime import datetime
 from bson.json_util import dumps, loads
 from urllib.parse import urlsplit, parse_qs
 from functools import wraps
+import tinys3
+
 
 app = Flask(__name__)
 app.config["MONGO_URI"] = "mongodb://admin:password123@ds147942.mlab.com:47942/ks-hack"
@@ -15,8 +17,18 @@ mongo = PyMongo(app)
 users_db = mongo.db.users
 posts_db = mongo.db.posts
 classes_db = mongo.db.classes
+# conn = tinys3.Connection("AKIAIZFZLZYJI6PKG6YA", "7gT3u4UT2BpAf99ALVjVT3SL/LnG2n0kVXnXjeHo", tls=True, endpoint='s3-us-east-2.amazonaws.com')
 
 app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
+
+# Connection with tinys3
+conn = tinys3.Connection("AKIAIZFZLZYJI6PKG6YA","7gT3u4UT2BpAf99ALVjVT3SL/LnG2n0kVXnXjeHo", default_bucket='coursemates')
+
+# Should be hashed so that previous files or images can't be overwritten
+f = open('static/img/bg-masthead.jpg','rb')
+r = conn.upload('static/img/bg-masthead.jpg',f)
+
+
 
 def login_required(f):
     @wraps(f)
