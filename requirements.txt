@@ -2,3 +2,4 @@ bson
 bcrypt
 flask_pymongo
 flask
+tinys3
