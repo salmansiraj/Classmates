@@ -12,4 +12,4 @@ Coursemates is a platform driven for students like us who have trouble interacti
   * Application via explanations to students
  This platform allows all aspects stated above through a communal environment where students are capable of posting and talking about posted work.
  
- Coursemates is a webapp that allows users to post material onto a class page they are enrolled in and provides other users to like/dislike, and comment on the material. What separates us from other platforms is the gammification that encourages users to actively contribute where every post (that results in great interaction amongst other users) shall give the user who posted 'bit points'
+ Coursemates is a webapp that allows users to post material onto a class page they are enrolled in and provides other users to like/dislike, and comment on the material. What separates us from other platforms is the gammification that encourages users to actively contribute where every post (that results in great interaction amongst other users) shall give the user who posted 'bit points'. More successful posts, more bit points, which may be converted into redeemable rewards with help of sponsors.
