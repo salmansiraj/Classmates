@@ -1,5 +1,5 @@
 import random
-from flask import Flask, render_template, request, make_response, redirect, url_for, flash
+from flask import Flask, render_template, request, make_response, redirect, url_for, flash, session
 from flask_pymongo import PyMongo
 import bcrypt
 import json
@@ -7,6 +7,7 @@ from bson.objectid import ObjectId
 from datetime import datetime
 from bson.json_util import dumps, loads
 from urllib.parse import urlsplit, parse_qs
+from functools import wraps
 
 app = Flask(__name__)
 app.config["MONGO_URI"] = "mongodb://admin:password123@ds147942.mlab.com:47942/ks-hack"
@@ -17,9 +18,41 @@ classes_db = mongo.db.classes
 
 app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
 
+def login_required(f):
+    @wraps(f)
+    def dec(*args, **kwargs):
+        if not 'user_id' in session:
+            return redirect(url_for('login'))
+        return f(*args, **kwargs)
+    return dec
+
 @app.route('/')
 def index():
+    if 'user_id' in session:
+        # user is logged in
+        return redirect(url_for('classes'))
     return render_template('index.html')
+
+@app.route('/classes')
+@login_required
+def classes():
+    result = users_db.find_one({"_id": ObjectId(session['user_id'])})
+    class_ids = result['class_ids']
+    classes = []
+    for class_id in class_ids:
+        courseInfo = classes_db.find_one({"_id": ObjectId(class_id)})
+        classes.append(courseInfo)
+    return render_template('classes.html', classes=classes)
+
+@app.route('/class/<course_id>')
+@login_required
+def course(course_id):
+    result = classes_db.find_one({"_id": ObjectId(course_id)})
+    posts = posts_db.find({"class": course_id})
+    postData = []
+    for post in posts:
+        postData.append(post)
+    return render_template('class_dashboard.html', courseInfo = result, posts = postData)
 
 @app.route('/register')
 def register():
@@ -71,7 +104,8 @@ def authLogin():
         # if the encryptedPassword matches the hashedPassword
         # if bcrypt.check_password_hash(encryptedPassword, hashedPassword):
         if data['password'] == hashedPassword:
-            return redirect('/user_dashboard')
+            session["user_id"] = str(id)
+            return redirect('/classes')
             # return redirect('/dashboard')
             # res = make_response(redirect('/user_dashboard'))
     #         # one day long cookie
@@ -87,8 +121,8 @@ def authLogin():
 
 @app.route('/logout')
 def logout():
+    session.pop('user_id', None)
     res = make_response(redirect('/'))
-    res.delete_cookie('uuid')
     return res
 
 @app.route('/api/posts', methods=['POST'])
@@ -98,6 +132,20 @@ def getPosts():
     search = users_db.find_one({"_id": userId})
     posts = search["posts"]
     return json.dump(posts)
+
+@app.route('/api/getCoursePosts')
+def getCoursePosts():
+    data = json.load(request.data)
+    course_id = data["course_id"]
+    result = posts_db.find({"class": course_id})
+    return dumps(result) if result else {}
+
+@app.route('/api/getUserCourses')
+def getUserCourses():
+    data = json.load(request.data)
+    user_id = data["user_id"]
+    result = users_db.find_one({"_id": ObjectId(user_id)})
+    return dumps(result) if result else {}
 
 @app.route('/api/addPoints', methods=['POST'])
 def addPoints():
@@ -128,7 +176,7 @@ def addPost():
 
 #  endpoint to find class information with class name
 # @app.route('/api/findClass', methods=['POST'])
-# def findClass(): 
+# def findClass():
 #     data = json.loads(request.data)
 #     print(data)
 
@@ -145,7 +193,7 @@ def addPost():
 
 #  endpoint to find class information with class name
 # @app.route('/api/findClass', methods=['POST'])
-# def findClass(): 
+# def findClass():
 #     data = json.loads(request.data)
 #     print(data)
 

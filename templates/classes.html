@@ -1,0 +1,8 @@
+<ul>
+{% for class in classes %}
+<li>
+  {{ class.course_name }}
+  <a href="/class/{{ class._id }}">Go to Course</a>
+  </li>
+{% endfor %}
+</ul>
