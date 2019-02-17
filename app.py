@@ -107,6 +107,31 @@ def addPoints():
     return redirect('/')
 
 # endpoint to add classes
+@app.route('/api/addClass', methods=['POST'])
+def addClass():
+    data = json.loads(request.data)
+    for courseName in data:
+        courseObject = {"course_name": courseName, "professor": "nobody", "student_ids": [], "post_ids": []}
+        result = classes_db.insert_one(courseObject)
+    # course = {"course_name": data['course_name'], "professor": "nobody", "student_ids": [], "post_ids": []}
+    # result = classes_db.insert_one(course)
+    return redirect('/')
+
+@app.route('/api/addPost', methods=['POST'])
+def addPost():
+    data = json.loads(request.data)
+    for courseName in data:
+        courseObject = {"course_name": courseName, "professor": "nobody", "student_ids": [], "post_ids": []}
+        result = classes_db.insert_one(courseObject)
+
+    return redirect('/')
+
+#  endpoint to find class information with class name
+# @app.route('/api/findClass', methods=['POST'])
+# def findClass(): 
+#     data = json.loads(request.data)
+#     print(data)
+
 
 
 # @app.route('/api/addPost', methods=['POST'])
