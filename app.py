@@ -25,8 +25,8 @@ app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
 conn = tinys3.Connection("AKIAIZFZLZYJI6PKG6YA","7gT3u4UT2BpAf99ALVjVT3SL/LnG2n0kVXnXjeHo", default_bucket='coursemates')
 
 # Should be hashed so that previous files or images can't be overwritten
-f = open('static/img/bg-masthead.jpg','rb')
-r = conn.upload('static/img/bg-masthead.jpg',f)
+# f = open('static/img/bg-masthead.jpg','rb')
+# r = conn.upload('static/img/bg-masthead.jpg',f)
 
 
 
@@ -198,8 +198,10 @@ def addClass():
 @app.route('/api/addPost', methods=['POST'])
 def addPost():
     data = json.loads(request.data)
-    result = posts_db.insert_one({"filepath": "", "class": data["course_id"], "content": data["name"], "comment": data["caption"], "student_id": data["user_id"], "points": 0})
+    result = posts_db.insert_one({"filepath": data['image_name'], "class": data["course_id"], "content": data["name"], "comment": data["caption"], "student_id": data["user_id"], "points": 0})
     result2 = users_db.find_one_and_update({"_id": ObjectId(data["user_id"])}, {"$push": {"post_ids": result.inserted_id}})
+    f = open('static/img/' + data['image_name'],'rb')
+    r = conn.upload('static/img/' + data['image_name'],f)
     return "ok"
 
 #  endpoint to find class information with class name

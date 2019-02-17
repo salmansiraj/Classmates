@@ -73,9 +73,9 @@
         <textarea id="caption" rows="4" cols="50">
         </textarea>
         <br/>
-        <label style="color:white" for="avatar"> Choose a file: </label>
+        <label style="color:white" for="input"> Choose a file: </label>
 
-        <input type="file" id="avatar" name="avatar" accept="image/png, image/jpeg">
+        <input type="file" id="input" name="input" accept="image/png, image/jpeg">
         <button class="btn btn-primary" onclick="submit()">Submit</button>
       </div>
 
@@ -84,7 +84,7 @@
 
   <script>
      function submit() {
-
+         var image = document.getElementById('input').files[0].name;
          var name = document.getElementById('postName').value;
          var caption = document.getElementById('caption').value;
          var values = {};
@@ -93,6 +93,7 @@
          values['caption'] = caption;
          values['user_id'] = "{{ user_id }}";
          values['course_id'] = "{{ course_id }}";
+         values['image_name'] = image;
          console.log(values);
 
          fetch('/api/addPost', {
