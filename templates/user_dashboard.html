@@ -22,7 +22,7 @@
   <link href="static/css/grayscale.min.css" rel="stylesheet">
 
   <style>
-    
+
   </style>
 </head>
 
@@ -49,14 +49,17 @@
   <!-- Header -->
   <header class="masthead">
     <div class="container d-flex h-100 align-items-center">
-      <ul>
-      {% for class in classes %}
-      <li>
-        {{ class.course_name }}
-        <a href="/class/{{ class._id }}">Go to Course</a>
-        </li>
-      {% endfor %}
-      </ul>
+      <div class="container" styles="height:100px">
+              <ul styles="list-style:none; list-style-type:none; list-style-image:none;">
+              {% for class in classes %}
+              <li class="jumbotron">
+                {{ class.course_name }}
+                <a href="/class/{{ class._id }}">Go to Course</a>
+              </li>
+              {% endfor %}
+              </ul>
+      </div>
+
     </div>
   </header>
 

@@ -30,7 +30,7 @@ def login_required(f):
 def index():
     if 'user_id' in session:
         # user is logged in
-        return redirect(url_for('classes'))
+        return redirect(url_for('user_dashboard'))
     return render_template('index.html')
 
 @app.route('/user_dashboard')
