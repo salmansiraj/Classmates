@@ -28,7 +28,6 @@
       justify-content: center;
       flex-flow: row wrap;
       align-items: center;
-      align-content: stretch;
       height: 80%;
       width: 100%;
     }
@@ -42,7 +41,7 @@
       border-width: 2px;
       border-color: lightgray;
       background-color: ghostwhite;
-      width:33%;
+      width:30%;
       height:50%;
       text-align:center;
       margin:20px;
@@ -50,12 +49,14 @@
 
     .card-image {
       height:75%;
+      width:100%;
       border-bottom-style: solid;
       border-bottom-width: 2px;
     }
 
     .card-bottom {
       height:25%;
+      width:100%;
     }
 
     .card-text {
@@ -126,10 +127,28 @@
       <div class="flex-container">
         {% for post in posts %}
         <div class="card">
+          <!-- <div class="card-image" style="background: url("http://coursemates.s3.us-east-2.amazonaws.com/static/img/"  + "{{post.filepath}}") "> -->
+          <!-- <div class="card-image" style="background: url("http://coursemates.s3.us-east-2.amazonaws.com/static/img/{{post.filepath}}")"> -->
           <div class="card-image">
-
+            <img src="http://coursemates.s3.us-east-2.amazonaws.com/static/img/{{post.filepath}}" alt="Paper" height=100% width=100% />
           </div>
           <div class="card-bottom">
+            <div class="card-text">
+              {{ post.comment }}
+              <input type="text" placeholder="comment"/>
+              </div>
+            <div class="card-button">
+              <div class="button-points">
+                <p class="count" id="1"> {{ post.points }} </p>
+              </div>
+              <input type="button" class="button-dislike" id="{{ post._id }}" onclick="downvote(this)" />
+
+
+              <input type="button" class="button-like" id="{{ post._id }}" onclick="upvote(this)" />
+            </div>
+          </div>
+          </div>
+          <!-- <div class="card-bottom">
             <div class="card-text">
               {{ post.comment }}
 
@@ -143,9 +162,9 @@
 
               <input type="button" class="button-like" id="{{ post._id }}" onclick="upvote(this)" />
             </div>
-          </div>
+          </div> -->
+          {% endfor %}
         </div>
-        {% endfor %}
       </div>
 
 
