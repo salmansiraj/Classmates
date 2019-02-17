@@ -22,6 +22,72 @@
   <link href="../static/css/grayscale.min.css" rel="stylesheet">
 
   <style>
+    .flex-container {
+      display: flex;
+      justify-content: center;
+      flex-flow: row wrap;
+      align-items: center;
+      align-content: stretch;
+      background-color: white;
+      height: 80%;
+      width: 100%;
+    }
+
+    .card {
+      border-style: solid;
+      border-width: 2px;
+      border-color: black;
+      width:33%;
+      height:50%;
+      text-align:center;
+    }
+
+    .card-image {
+      height:75%;
+      border-bottom-style: dotted;
+      border-bottom-width: 2px;
+    }
+
+    .card-bottom {
+      height:25%;
+    }
+
+    .card-text {
+      float: left;
+      height:100%;
+      width:75%;
+      border-right-style: dashed;
+      border-right-width: 2px;
+    }
+
+    .card-button {
+      float: left;
+      height:100%;
+      width:25%;
+    }
+
+    .button-points {
+      float: left;
+      margin-top: 10%;
+      height:40%;
+      width:100%;
+      text-align: center;
+    }
+
+    .button-like {
+      float: left;
+      height:50%;
+      width:50%;
+      /* background-img : url('static/img/downvote.png'); */
+      background-color: #40bf80;
+    }
+
+    .button-dislike {
+      float: left;
+      height:50%;
+      width:50%;
+      background-color: #ff4d4d;
+    }
 
   </style>
 </head>
@@ -49,11 +115,63 @@
   <!-- Header -->
   <header class="masthead">
     <div class="container d-flex h-100 align-items-center">
-      <div class="container" style="height:100px">
+
+      <h3 style="color:black;"> {{ courseInfo.course_name }} </h3>
+      <button id="{{ courseInfo._id }}" onclick="createPost(this)">Post</button>
+      <div class="flex-container">
+        {% for post in posts %}
+        <div class="card">
+          <div class="card-image">
+
+          </div>
+          <div class="card-bottom">
+            <div class="card-text">
+              {{ post.comment }}
+
+              </div>
+            <div class="card-button">
+              <div class="button-points">
+                <p class="count" id="1"> {{ post.points }} </p>
+              </div>
+              <input type="button" class="button-dislike" id="{{ post._id }}" onclick="downvote(this)" />
+
+
+              <input type="button" class="button-like" id="{{ post._id }}" onclick="upvote(this)" />
+            </div>
+          </div>
+        </div>
+        {% endfor %}
       </div>
+
 
     </div>
   </header>
+
+  <script>
+      function createPost(e) {
+        window.location.href = "/create_post/" + e.id;
+      }
+
+      function upvote(e) {
+          fetch("/api/addPoints/" + e.id, {
+            method: 'POST', // or 'PUT'
+          }).then(res => res.json())
+          .then(response =>
+          location.reload()
+          )
+          .catch(error => console.error('Error:', error));
+      }
+
+      function downvote(e) {
+          fetch("/api/decreasePoints/" + e.id, {
+            method: 'POST', // or 'PUT'
+          }).then(res => res.json())
+          .then(response =>
+          location.reload()
+          )
+          .catch(error => console.error('Error:', error));
+      }
+  </script>
 
   <!-- Bootstrap core JavaScript -->
   <script src="../static/vendor/jquery/jquery.min.js"></script>

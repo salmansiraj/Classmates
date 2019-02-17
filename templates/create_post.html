@@ -50,10 +50,43 @@
   <header class="masthead">
     <div class="container d-flex h-100 align-items-center">
       <div class="container" style="height:100px">
+        <input type="text" id="postName" placeholder="Post Name">
+        <br/>
+        <textarea id="caption" rows="4" cols="50">
+        </textarea>
+        <br/>
+        <button onclick="submit()">Submit</button>
       </div>
 
     </div>
   </header>
+
+  <script>
+     function submit() {
+
+         var name = document.getElementById('postName').value;
+         var caption = document.getElementById('caption').value;
+         var values = {};
+
+         values['name'] = name;
+         values['caption'] = caption;
+         values['user_id'] = "{{ user_id }}";
+         values['course_id'] = "{{ course_id }}";
+         console.log(values);
+
+         fetch('/api/addPost', {
+           method: 'post',
+           headers: {
+             'Accept': 'application/json, text/plain, */*',
+             'Content-Type': 'application/json'
+           },
+           body: JSON.stringify(values)
+         }).then(res=>
+           window.location.href = "/class/" + "{{ course_id }}"
+         )
+           .then(res => console.log(res));
+             }
+   </script>
 
   <!-- Bootstrap core JavaScript -->
   <script src="../static/vendor/jquery/jquery.min.js"></script>
