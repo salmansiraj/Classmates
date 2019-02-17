@@ -239,7 +239,7 @@
 
   <script>
       var counter = 0;
-      $("#upvote").click(function(){
+      $("#upvote").click(function upvote(){
         counter++;
         $("#count").text(counter);
       });
@@ -250,24 +250,10 @@
       });
 
       function upvote() {
-          var myTab = document.getElementById('empTable');
-          var values = new Array();
-
-          // LOOP THROUGH EACH ROW OF THE TABLE.
-          for (row = 1; row < myTab.rows.length - 1; row++) {
-              for (c = 0; c < myTab.rows[row].cells.length; c++) {   // EACH CELL IN A ROW.
-
-                  var element = myTab.rows.item(row).cells[c];
-                  if (element.childNodes[0].getAttribute('type') == 'text') {
-                      values.push("'" + element.childNodes[0].value + "'");
-                  }
-              }
-          }
-          console.log(values);
-          window.fetch("/api/addClass", {
-            method: 'POST',
-            body: JSON.stringify(values),
+          window.fetch("/api/addPoints", {
+            method: 'POST'
           }).then(resolve, reject);
+        }
 
   </script>
 

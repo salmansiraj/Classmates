@@ -12,6 +12,7 @@ app = Flask(__name__)
 app.config["MONGO_URI"] = "mongodb://admin:password123@ds147942.mlab.com:47942/ks-hack"
 mongo = PyMongo(app)
 users_db = mongo.db.users
+posts_db = mongo.db.posts
 
 app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
 
@@ -91,6 +92,13 @@ def getPosts():
     search = users_db.find_one({"_id": userId})
     posts = search["posts"]
     return json.dump(posts)
+
+@app.route('/api/addPoints', methods=['POST'])
+def addPoints():
+    data = json.loads(request.data)
+    postId = ObjectId(data["uuid"])
+    posts_db.find_one_and_update({"_id": postId}, {"points": data["points"]+1})
+    return redirect('/')
 
 
 if __name__ == '__main__':
