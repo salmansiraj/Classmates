@@ -33,16 +33,16 @@ def index():
         return redirect(url_for('classes'))
     return render_template('index.html')
 
-@app.route('/classes')
+@app.route('/user_dashboard')
 @login_required
-def classes():
+def user_dashboard():
     result = users_db.find_one({"_id": ObjectId(session['user_id'])})
     class_ids = result['class_ids']
     classes = []
     for class_id in class_ids:
         courseInfo = classes_db.find_one({"_id": ObjectId(class_id)})
         classes.append(courseInfo)
-    return render_template('classes.html', classes=classes)
+    return render_template('user_dashboard.html', classes=classes)
 
 @app.route('/class/<course_id>')
 @login_required
@@ -62,9 +62,9 @@ def register():
 def login():
     return render_template('login.html')
 
-@app.route('/user_dashboard')
-def userDashboard():
-    return render_template('user_dashboard.html')
+# @app.route('/user_dashboard')
+# def userDashboard():
+#     return render_template('user_dashboard.html')
 
 @app.route('/class_dashboard')
 def classDashboard():
@@ -90,7 +90,7 @@ def authRegister():
         # hashedPassword = bcrypt.generate_password_hash(encryptedPassword)
         user = {"name": data['name'], "email": data['email'], "password": data['password'], "class_ids": [], "points": 0, "post_ids": []}
         result = users_db.insert_one(user)
-        return redirect('/')
+        return redirect('/login')
         # return "User has been successfully created"
 
 @app.route('/api/login', methods=['POST'])
@@ -105,7 +105,7 @@ def authLogin():
         # if bcrypt.check_password_hash(encryptedPassword, hashedPassword):
         if data['password'] == hashedPassword:
             session["user_id"] = str(id)
-            return redirect('/classes')
+            return redirect('/user_dashboard')
             # return redirect('/dashboard')
             # res = make_response(redirect('/user_dashboard'))
     #         # one day long cookie
@@ -125,13 +125,13 @@ def logout():
     res = make_response(redirect('/'))
     return res
 
-@app.route('/api/posts', methods=['POST'])
-def getPosts():
-    data = json.loads(request.data)
-    userId = ObjectId(data['uuid'])
-    search = users_db.find_one({"_id": userId})
-    posts = search["posts"]
-    return json.dump(posts)
+# @app.route('/api/posts', methods=['POST'])
+# def getPosts():
+#     data = json.loads(request.data)
+#     userId = ObjectId(data['uuid'])
+#     search = users_db.find_one({"_id": userId})
+#     posts = search["posts"]
+#     return json.dump(posts)
 
 @app.route('/api/getCoursePosts')
 def getCoursePosts():
@@ -147,12 +147,20 @@ def getUserCourses():
     result = users_db.find_one({"_id": ObjectId(user_id)})
     return dumps(result) if result else {}
 
-@app.route('/api/addPoints', methods=['POST'])
-def addPoints():
-    data = json.loads(request.data)
-    postId = ObjectId(data["uuid"])
-    posts_db.find_one_and_update({"_id": postId}, {"points": data["points"]+1})
-    return redirect('/')
+@app.route('/api/addPoints/<post_id>', methods=['POST'])
+def addPoints(post_id):
+    result = posts_db.find_one({"_id": ObjectId(post_id)})
+    posts_db.find_one_and_update({"_id": post_id}, {"$inc": {"points": 1}})
+    return redirect('/api/getCoursePosts')
+
+# @app.route('/class/<course_id>')
+# def course(course_id):
+#     result = classes_db.find_one({"_id": ObjectId(course_id)})
+#     posts = posts_db.find({"class": course_id})
+#     postData = []
+#     for post in posts:
+#         postData.append(post)
+#     return render_template('class_dashboard.html', courseInfo = result, posts = postData)
 
 # endpoint to add classes
 @app.route('/api/addClass', methods=['POST'])
