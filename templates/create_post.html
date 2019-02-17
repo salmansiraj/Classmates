@@ -23,6 +23,23 @@
 
   <style>
 
+    .masthead h1 {
+      line-height: 6.5rem;
+      letter-spacing: .8rem;
+      font-size: 04rem;
+    }
+    label {
+      display: block;
+      font: 1rem 'Fira Sans', sans-serif;
+    }
+    input,
+    label {
+        margin: .4rem 0;
+    }
+
+    .note {
+        font-size: .8em;
+    }
   </style>
 </head>
 
@@ -50,13 +67,16 @@
   <header class="masthead">
     <div class="container d-flex h-100 align-items-center">
       <div class="container" style="height:100px">
-        <h1> New Post </h1>
-        <input type="text" id="postName" placeholder="Post Name"/>
+        <h1 class="mx-auto my-0 text-uppercase"> CREATE A POST </h1>
+        <input type="text" id="postName" placeholder="Post Name">
         <br/>
         <textarea id="caption" rows="4" cols="50">
         </textarea>
         <br/>
-        <button onclick="submit()">Submit</button>
+        <label style="color:white" for="avatar"> Choose a file: </label>
+
+        <input type="file" id="avatar" name="avatar" accept="image/png, image/jpeg">
+        <button class="btn btn-primary" onclick="submit()">Submit</button>
       </div>
 
     </div>
