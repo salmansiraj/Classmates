@@ -150,8 +150,18 @@ def getUserCourses():
 @app.route('/api/addPoints/<post_id>', methods=['POST'])
 def addPoints(post_id):
     result = posts_db.find_one({"_id": ObjectId(post_id)})
-    posts_db.find_one_and_update({"_id": post_id}, {"$inc": {"points": 1}})
-    return redirect('/api/getCoursePosts')
+    currentPoints = result["points"]
+    currentPoints += 1
+    result2 = posts_db.update({"_id": ObjectId(post_id)}, {"$set": {"points": currentPoints}})
+    return json.dumps({"status": "ok"})
+
+@app.route('/api/decreasePoints/<post_id>', methods=['POST'])
+def decreasePoints(post_id):
+    result = posts_db.find_one({"_id": ObjectId(post_id)})
+    currentPoints = result["points"]
+    currentPoints -= 1
+    result2 = posts_db.update({"_id": ObjectId(post_id)}, {"$set": {"points": currentPoints}})
+    return json.dumps({"status": "ok"})
 
 # @app.route('/class/<course_id>')
 # def course(course_id):
