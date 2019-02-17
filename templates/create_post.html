@@ -20,6 +20,7 @@
         values['name'] = name;
         values['caption'] = caption;
         values['user_id'] = "{{ user_id }}";
+        values['course_id'] = "{{ course_id }}";
         console.log(values);
 
         fetch('/api/addPost', {

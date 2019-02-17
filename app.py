@@ -168,8 +168,7 @@ def addClass():
 @app.route('/api/addPost', methods=['POST'])
 def addPost():
     data = json.loads(request.data)
-    course_id = "5c675f23b57fd266d069c1f6"
-    result = posts_db.insert_one({"filepath": "", "content": data["name"], "comment": data["caption"], "student_id": data["user_id"], "points": 0})
+    result = posts_db.insert_one({"filepath": "", "class": data["user_id"], "content": data["name"], "comment": data["caption"], "student_id": data["user_id"], "points": 0})
     result2 = users_db.find_one_and_update({"_id": ObjectId(data["user_id"])}, {"$push": {"post_ids": result.inserted_id}})
     return redirect('/')
 
