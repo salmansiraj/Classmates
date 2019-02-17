@@ -117,110 +117,30 @@
   <header class="masthead">
     <div class="container d-flex h-100 align-items-center">
 
-      <h3 style="color:white;"> Intro to Databases </h3>
+      <h3 style="color:black;"> {{ courseInfo.course_name }} </h3>
       <div class="flex-container">
+        {% for post in posts %}
         <div class="card">
           <div class="card-image">
 
           </div>
           <div class="card-bottom">
             <div class="card-text">
+              {{ post.comment }}
 
               </div>
             <div class="card-button">
               <div class="button-points">
-                <p id="count"> 0 </p>
+                <p class="count" id="1"> {{ post.points }} </p>
               </div>
-              <input type="button" class="button-dislike" id= "downvote" />
+              <input type="button" class="button-dislike" id="{{ post._id }}" onclick="downvote(this)" />
 
 
-              <input type="button" class="button-like" id= "upvote" />
+              <input type="button" class="button-like" id="{{ post._id }}" onclick="upvote(this)" />
             </div>
           </div>
         </div>
-        <div class="card">
-          <div class ="card-image">
-
-          </div>
-          <div class="card-bottom">
-            <div class="card-text">
-
-              </div>
-            <div class="card-button">
-              <div class="button-points">
-                <p id="count"> 0 </p>
-              </div>
-              <input type="button" class="button-dislike"/>
-
-
-              <input type="button" class="button-like"/>
-            </div>
-          </div>
-        </div>
-        <div class="card">
-          <div class ="card-image">
-
-          </div>
-          <div class="card-bottom">
-            <div class="card-text">
-
-              </div>
-            <div class="card-button">
-              <input type="button" class="button-dislike"/>
-
-
-              <input type="button" class="button-like"/>
-            </div>
-          </div>
-        </div>
-        <div class="card">
-          <div class ="card-image">
-
-          </div>
-          <div class="card-bottom">
-            <div class="card-text">
-
-              </div>
-            <div class="card-button">
-              <input type="button" class="button-dislike"/>
-
-
-              <input type="button" class="button-like"/>
-            </div>
-          </div>
-        </div>
-        <div class="card">
-          <div class ="card-image">
-
-          </div>
-          <div class="card-bottom">
-            <div class="card-text">
-
-              </div>
-            <div class="card-button">
-              <input type="button" class="button-dislike"/>
-
-
-              <input type="button" class="button-like"/>
-            </div>
-          </div>
-        </div>
-        <div class="card">
-          <div class ="card-image">
-
-          </div>
-          <div class="card-bottom">
-            <div class="card-text">
-
-              </div>
-            <div class="card-button">
-              <input type="button" class="button-dislike"/>
-
-
-              <input type="button" class="button-like"/>
-            </div>
-          </div>
-        </div>
+        {% endfor %}
       </div>
 
 
@@ -238,23 +158,17 @@
   <script src="static/js/grayscale.min.js"></script>
 
   <script>
-      var counter = 0;
-      $("#upvote").click(function upvote(){
-        counter++;
-        $("#count").text(counter);
-      });
-
-      $("#downvote").click(function(){
-        counter--;
-        $("#count").text(counter);
-      });
-
-      function upvote() {
-          window.fetch("/api/addPoints", {
+      function upvote(e) {
+          window.fetch("/api/addPoints/" + e.id, {
             method: 'POST'
           }).then(resolve, reject);
-        }
+      }
 
+      function downvote(e) {
+          window.fetch("/api/decreasePoints/" + e.id, {
+            method: 'POST'
+          }).then(resolve, reject);
+      }
   </script>
 
 </body>
