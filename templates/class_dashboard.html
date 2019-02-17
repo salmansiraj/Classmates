@@ -159,15 +159,23 @@
 
   <script>
       function upvote(e) {
-          window.fetch("/api/addPoints/" + e.id, {
-            method: 'POST'
-          }).then(resolve, reject);
+          fetch("/api/addPoints/" + e.id, {
+            method: 'POST', // or 'PUT'
+          }).then(res => res.json())
+          .then(response =>
+          location.reload()
+          )
+          .catch(error => console.error('Error:', error));
       }
 
       function downvote(e) {
-          window.fetch("/api/decreasePoints/" + e.id, {
-            method: 'POST'
-          }).then(resolve, reject);
+          fetch("/api/decreasePoints/" + e.id, {
+            method: 'POST', // or 'PUT'
+          }).then(res => res.json())
+          .then(response =>
+          location.reload()
+          )
+          .catch(error => console.error('Error:', error));
       }
   </script>
 
