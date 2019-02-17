@@ -18,4 +18,5 @@ Coursemates is a platform driven for students like us who have trouble interacti
  * Python/Flask
  * MongoDB
  * HTML/CSS JavaScript
- * AWS E3
+ * AWS EC2, S3
+ 
