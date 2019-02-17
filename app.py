@@ -22,7 +22,7 @@ classes_db = mongo.db.classes
 app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
 
 # Connection with tinys3
-conn = tinys3.Connection("AKIAIZFZLZYJI6PKG6YA","7gT3u4UT2BpAf99ALVjVT3SL/LnG2n0kVXnXjeHo", default_bucket='coursemates')
+conn = tinys3.Connection("AKIAISLOGDBNXBNYX4LQ","nWRstLYNQdAN+FFs8Rqwk1iDAqO2Yo62iMhgHRf8", default_bucket='coursemates2')
 
 # Should be hashed so that previous files or images can't be overwritten
 # f = open('static/img/bg-masthead.jpg','rb')
