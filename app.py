@@ -73,7 +73,7 @@ def classDashboard():
 
 @app.route('/create_post')
 def createPostPage():
-    return render_template('create_post.html')
+    return render_template('create_post.html', user_id = str(session["user_id"]))
 
 # @app.route('/dashboard')
 # def dash():
@@ -186,10 +186,8 @@ def addClass():
 @app.route('/api/addPost', methods=['POST'])
 def addPost():
     data = json.loads(request.data)
-    for courseName in data:
-        courseObject = {"course_name": courseName, "professor": "nobody", "student_ids": [], "post_ids": []}
-        result = classes_db.insert_one(courseObject)
-
+    result = posts_db.insert_one({"filepath": "", "class": data["user_id"], "content": data["name"], "comment": data["caption"], "student_id": data["user_id"], "points": 0})
+    result2 = users_db.find_one_and_update({"_id": ObjectId(data["user_id"])}, {"$push": {"post_ids": result.inserted_id}})
     return redirect('/')
 
 #  endpoint to find class information with class name
