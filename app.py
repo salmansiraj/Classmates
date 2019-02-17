@@ -13,6 +13,7 @@ app.config["MONGO_URI"] = "mongodb://admin:password123@ds147942.mlab.com:47942/k
 mongo = PyMongo(app)
 users_db = mongo.db.users
 classes_db = mongo.db.classes
+posts_db = mongo.db.post
 
 app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
 
@@ -35,6 +36,11 @@ def userDashboard():
 @app.route('/class_dashboard')
 def classDashboard():
     return render_template('class_dashboard.html')
+
+
+@app.route('/create_post')
+def createPostPage():
+    return render_template('create_post.html')
 
 # @app.route('/dashboard')
 # def dash():
@@ -102,6 +108,18 @@ def addClass():
         result = classes_db.insert_one(courseObject)
     # course = {"course_name": data['course_name'], "professor": "nobody", "student_ids": [], "post_ids": []}
     # result = classes_db.insert_one(course)
+    return redirect('/')
+
+# endpoint to add classes
+
+
+@app.route('/api/addPost', methods=['POST'])
+def addPost():
+    data = json.loads(request.data)
+    for courseName in data:
+        courseObject = {"course_name": courseName, "professor": "nobody", "student_ids": [], "post_ids": []}
+        result = classes_db.insert_one(courseObject)
+
     return redirect('/')
 
 #  endpoint to find class information with class name
